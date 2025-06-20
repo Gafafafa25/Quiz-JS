@@ -1,0 +1,18 @@
+.q {
+    margin-bottom: 30px;
+    margin-left: 15px;
+}
+.submit {
+    font-size: large;
+    background-color: olivedrab;
+    border-radius: 10px;
+    color: aliceblue;
+    margin-left: 15px;
+    border: none;
+}
+h1 {
+    color: olivedrab;
+    text-decoration-line: underline;
+    margin-left: 15px;
+}
+

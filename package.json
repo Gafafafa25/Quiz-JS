@@ -1,0 +1,16 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "simple quiz",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "tai",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}

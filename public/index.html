@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz JS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Quiz JS</h1>
+<form action="quiz" method="post">
+    <div class="q">
+        <p>1. What will print this program: <code>alert(5%2)</code>?</p>
+        <label for="q1">Answer</label>
+        <input type="text" id="q1" name="q1">
+    </div>
+    <div class="q">
+        <p>2. What command print to the console?</p>
+        <input type="radio" id="q2v1" name="q2" value="alert">
+        <label for="q2v1"><code>alert</code></label><br>
+        <input type="radio" id="q2v2" name="q2" value="console.log">
+        <label for="q2v2"><code>console.log</code></label><br>
+        <input type="radio" id="q2v3" name="q2" value="console.print">
+        <label for="q2v3"><code>console.print</code></label>
+    </div>
+    <div class="q">
+        <p>3. What command will return the value rounded up to the nearest integer?</p>
+        <label for="q3">Answer</label>
+        <input type="text" id="q3" name="q3">
+    </div>
+    <div class="q">
+        <!--    todo: add values-->
+        <p>4. Select method for the string only:</p>
+        <input type="radio" id="q4v1" name="q4" value="slice()">
+        <label for="q4v1"><code>slice()</code></label><br>
+        <input type="radio" id="q4v2" name="q4" value="replace()">
+        <label for="q4v2"><code>replace()</code></label><br>
+        <input type="radio" id="q4v3" name="q4" value="toLowerCase()">
+        <label for="q4v3"><code>toLowerCase()</code></label>
+    </div>
+    <div class="q">
+        <p>5. Select method to add a new element in an array</p>
+        <select id="q5" name="q5">
+            <option value="">select</option>
+            <option value="q4v1">push()</option>
+            <option value="q4v2">pop()</option>
+            <option value="q4v3">shift()</option>
+        </select>
+    </div>
+    <div class="q">
+        <p>6. Select Boolean data type</p>
+        <input type="checkbox" id="q6v1" name="q6v1" value="q6v1">
+        <label for="q6v1">"btype"</label><br>
+        <input type="checkbox" id="q6v2" name="q6v2" value="q6v2">
+        <label for="q6v2">YES / NO</label><br>
+        <input type="checkbox" id="q6v3" name="q6v3" value="q6v3">
+        <label for="q6v3">TRUE / FALSE</label><br>
+    </div>
+    <button type="submit" class="submit">submit</button>
+</form>
+</body>
+</html>
