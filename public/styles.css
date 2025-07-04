@@ -1,6 +1,7 @@
 .q {
     margin-bottom: 30px;
     margin-left: 15px;
+    display: none;
 }
 .submit {
     font-size: large;
@@ -16,3 +17,6 @@ h1 {
     margin-left: 15px;
 }
 
+#submitBtn {
+    display: none;
+}

@@ -1,8 +1,8 @@
 /*todo:
 main: question table add column with question type!
-1. to show only one question and button next
+1. to show only one question and button next +
 2. mix up questions +
-3. mix up  answers
+3. mix up  answers hw
 4. save to db
 5. ask student name and save to db
 6. load questions from db
@@ -67,10 +67,11 @@ function getMixedArray(n) {
 }
 
 
+
 function createTest() {
     let newQuestion;
     let k = 6
-    my_form = document.getElementById("form");
+    my_form = document.getElementById("qBlock");
 
     const randomOrder = getMixedArray(data.questions.length);
 
@@ -124,6 +125,7 @@ function createTest() {
                 newSelect.appendChild(newOption);
             }
         } else if (question.type === "checkbox") {
+            //todo: mix up answers
             for (let i = 0; i < question.options.length; i++) {
                 newLabel = document.createElement("label");
                 const idText = "q" + question.id + "v" + (i + 1);
@@ -152,3 +154,22 @@ function createTest() {
 }
 
 createTest();
+
+let questionNumber = 0;
+const divQuestions = document.querySelectorAll(".q");
+// console.log(divQuestions);
+divQuestions[questionNumber].style.display = "block";
+
+const nextBtn = document.querySelector("#nextBtn")
+
+nextBtn.addEventListener("click", ()=> {
+    divQuestions[questionNumber].style.display = "none";
+    questionNumber++;
+    //todo: next hide, show submit
+    if (questionNumber === data.questions.length -1) {
+        document.querySelector("#submitBtn").style.display = "block";
+        nextBtn.style.display = "none";
+    }
+    divQuestions[questionNumber].style.display = "block";
+}) ;
+
