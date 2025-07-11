@@ -12,22 +12,22 @@ app.post('/quiz', async (req, res) => {
     const answers = req.body;
     let score = 0
     console.log(answers);
-    if (answers.q6v1 === undefined && answers.q6v2 === "q6v2" && answers.q6v3 === "q6v3") {
+    if (answers.q9v1 === undefined && answers.q9v2 === "q9v2" && answers.q9v3 === "q9v3") {
         score++
     }
-    if (answers.q1 === "1") {
+    if (answers.q1 === "4") {
         score++
     }
-    if (answers.q2 === "console.log") {
+    if (answers.q3 === "console.log") {
         score++
     }
-    if (answers.q3 === "Math.ceil()") {
+    if (answers.q4 === "Math.ceil()") {
         score++
     }
-    if (answers.q4 === "toLowerCase()") {
+    if (answers.q5 === "toLowerCase()") {
         score++
     }
-    if (answers.q5 === "push()") {
+    if (answers.q6 === "push()") {
         score++
     }
     res.send(score + '<a href="/">back</a>');
