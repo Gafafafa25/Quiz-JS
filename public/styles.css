@@ -29,3 +29,9 @@ h1 {
     border: none;
     color: aliceblue;
 }
+
+.total {
+    color: olivedrab;
+    font-size: large;
+    margin-left: 15px;
+}

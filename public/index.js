@@ -5,7 +5,7 @@ main: question table add column with question type!
 3. mix up  answers hw +
 4. save to db
 5. ask student name and save to db
-6. load questions from db
+6. load questions from db +
 7. admin dashboard:
     1)CRUD(create, read, update, delete) question
     2)show results
@@ -13,46 +13,35 @@ main: question table add column with question type!
 8. add right answers to json, but dont send it to the client
 */
 
-const data = {
-    "questions": [
-        {
-            "id": "1",
-            "text": "2+2=?",
-            "type": "text", //radio, text, checkbox, select
-            "options": []
-        },
-        {
-            "id": "3",
-            "text": "What command print to the console?",
-            "type": "radio",
-            "options": ["console.log", "console.print", "alert"]
-        },
-        {
-            "id": "4",
-            "text": "What command will return the value rounded up to the nearest integer?",
-            "type": "text",
-            "options": []
-        },
-        {
-            "id": "5",
-            "text": "Select method for the string only",
-            "type": "radio",
-            "options": ["slice()", "replace()", "toLowerCase()"]
-        },
-        {
-            "id": "6",
-            "text": "Select method to add a new element in an array",
-            "type": "select",
-            "options": ["push()", "pop()", "shift()"]
-        },
-        {
-            "id": "9",
-            "text": "Select Boolean data type",
-            "type": "checkbox",
-            "options": ["btype", "YES / NO", "TRUE / FALSE"]
-        }
-    ]
+let data = {
+    "questions": []
 }
+
+fetch("/questions").then((response) => {
+    return response.json();
+}).then((questions) => {
+    // console.log(data)
+    data.questions = questions;
+    createTest();
+    let questionNumber = 0;
+    const divQuestions = document.querySelectorAll(".q");
+console.log(divQuestions);
+
+    divQuestions[questionNumber].style.display = "block";
+
+    const nextBtn = document.querySelector("#nextBtn")
+
+    nextBtn.addEventListener("click", ()=> {
+        divQuestions[questionNumber].style.display = "none";
+        questionNumber++;
+        if (questionNumber === data.questions.length -1) {
+            document.querySelector("#submitBtn").style.display = "block";
+            nextBtn.style.display = "none";
+        }
+        divQuestions[questionNumber].style.display = "block";
+    }) ;
+
+})
 
 function getMixedArray(n) {
     const res = []
@@ -70,6 +59,7 @@ function getMixedArray(n) {
 
 
 function createTest() {
+    console.log(data)
     let newQuestion;
     let k = 6
     my_form = document.getElementById("qBlock");
@@ -84,7 +74,7 @@ function createTest() {
 
         //p
         const newP = document.createElement("p");
-        newP.innerHTML = question.text;
+        newP.innerHTML = question.question;
         newQuestion.appendChild(newP);
 
         //input
@@ -160,23 +150,3 @@ function createTest() {
         }
     }
 }
-
-createTest();
-
-let questionNumber = 0;
-const divQuestions = document.querySelectorAll(".q");
-// console.log(divQuestions);
-divQuestions[questionNumber].style.display = "block";
-
-const nextBtn = document.querySelector("#nextBtn")
-
-nextBtn.addEventListener("click", ()=> {
-    divQuestions[questionNumber].style.display = "none";
-    questionNumber++;
-    if (questionNumber === data.questions.length -1) {
-        document.querySelector("#submitBtn").style.display = "block";
-        nextBtn.style.display = "none";
-    }
-    divQuestions[questionNumber].style.display = "block";
-}) ;
-
