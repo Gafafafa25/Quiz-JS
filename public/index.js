@@ -3,20 +3,22 @@ main: question table add column with question type!
 1. to show only one question and button next +
 2. mix up questions +
 3. mix up  answers hw +
-4. save to db
+4. save to db +
 5. ask student name and save to db
 6. load questions from db +
 7. admin dashboard:
     1)CRUD(create, read, update, delete) question
     2)show results
     3)add permissions for students (login, password, limit)
-8. add right answers to json, but dont send it to the client
+8. add right answers to json, but dont send it to the client+
+9. check test results with db
 */
 
 let data = {
     "questions": []
 }
 
+//запрос вопросов с сервера
 fetch("/questions").then((response) => {
     return response.json();
 }).then((questions) => {
@@ -61,7 +63,7 @@ function getMixedArray(n) {
 function createTest() {
     console.log(data)
     let newQuestion;
-    let k = 6
+    // let k = 6
     my_form = document.getElementById("qBlock");
 
     const randomOrder = getMixedArray(data.questions.length);
@@ -145,8 +147,8 @@ function createTest() {
         // вставка вопроса в форму
         my_form.appendChild(newQuestion);
 
-        if (--k === 0) {
-            break
-        }
+        // if (--k === 0) {
+        //     break
+        // }
     }
 }
