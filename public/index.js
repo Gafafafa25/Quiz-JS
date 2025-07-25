@@ -68,6 +68,7 @@ function createTest() {
 
     const randomOrder = getMixedArray(data.questions.length);
 
+    let questionNumber = 1
     for (let i = 0; i < data.questions.length; i++) {
         let question = data.questions[randomOrder[i]];
         // div.q
@@ -76,9 +77,9 @@ function createTest() {
 
         //p
         const newP = document.createElement("p");
-        newP.innerHTML = question.question;
+        newP.innerHTML = questionNumber + ". " + question.question;
         newQuestion.appendChild(newP);
-
+        questionNumber++
         //input
         let newInput, newLabel, newSelect, newOption;
         if (question.type === "text") {
@@ -107,6 +108,7 @@ function createTest() {
                 newLabel.innerText = question.options[randomOrderRadio[i]];
                 newLabel.htmlFor = idText;
                 newQuestion.appendChild(newLabel);
+
             }
 
         } else if (question.type === "select") {

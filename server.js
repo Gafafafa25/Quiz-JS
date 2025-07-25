@@ -135,6 +135,36 @@ app.post('/addQuestion', async (req, res) => {
     res.send('ok' + '<a href="/add.html" class="back">back</a>')
 })
 
+app.post('/addQuestionRadio', async (req, res) => {
+    const d = req.body;
+    console.log(d);
+    const options = `${d.fieldOfOption1};${d.fieldOfOption2};${d.fieldOfOption3};${d.fieldOfOption4}`;
+    let rightOption = ""
+    if (d.rightOption === "v1") {
+        rightOption = d.fieldOfOption1
+    }
+    else if (d.rightOption === "v2") {
+        rightOption = d.fieldOfOption2
+    }
+    else if (d.rightOption === "v3") {
+        rightOption = d.fieldOfOption3
+    }
+    else if (d.rightOption === "v4") {
+        rightOption = d.fieldOfOption4
+    }
+    //запрос в базу
+    try {
+        const result = await pool.query("INSERT INTO Questions VALUES ($1, 'radio', $2, $3, DEFAULT)",
+            [d.questionText, options, rightOption]);
+        // res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Database error');
+    }
+    res.send('ok' + '<a href="/addRadio.html" class="back">back</a>')
+})
+
+
 
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
