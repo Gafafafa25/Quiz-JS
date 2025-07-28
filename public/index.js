@@ -25,23 +25,24 @@ fetch("/questions").then((response) => {
     // console.log(data)
     data.questions = questions;
     createTest();
+
     let questionNumber = 0;
     const divQuestions = document.querySelectorAll(".q");
-console.log(divQuestions);
+    console.log(divQuestions);
 
     divQuestions[questionNumber].style.display = "block";
 
     const nextBtn = document.querySelector("#nextBtn")
 
-    nextBtn.addEventListener("click", ()=> {
+    nextBtn.addEventListener("click", () => {
         divQuestions[questionNumber].style.display = "none";
         questionNumber++;
-        if (questionNumber === data.questions.length -1) {
+        if (questionNumber === data.questions.length - 1) {
             document.querySelector("#submitBtn").style.display = "block";
             nextBtn.style.display = "none";
         }
         divQuestions[questionNumber].style.display = "block";
-    }) ;
+    });
 
 })
 
@@ -57,7 +58,6 @@ function getMixedArray(n) {
     }
     return res;
 }
-
 
 
 function createTest() {
@@ -154,3 +154,14 @@ function createTest() {
         // }
     }
 }
+
+
+document.querySelector("#logInBtn").addEventListener("click", () => {
+    document.querySelector("#userInfo").style.display = "none";
+    document.querySelector("#qBlock").style.display = "block";
+    document.querySelector("#nextBtn").style.display = "block";
+    document.querySelector("#userName").style.display = "block";
+
+    const name = document.getElementById("userLogin").value
+    document.getElementById("userName").innerHTML = `${name}`;
+});

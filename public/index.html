@@ -7,7 +7,23 @@
 </head>
 <body>
 <h1>Quiz JS</h1>
+<div id="userName" class="userName"></div>
 <form id="form" action="quiz" method="post">
+    <div id="userInfo" class="userInfo">
+        <label for="userLogin">Input your login:</label>
+        <input name="userLogin" id="userLogin" type="text">
+        <button type="button" id="logInBtn" class="logInBtn">log in</button>
+    </div>
+
+<!--    <div class="captcha">-->
+<!--        <div class="firstNumber">...</div>-->
+<!--        <div class="plus">+</div>-->
+<!--        <div class="secondNumber">...</div>-->
+<!--        <div class="equal">=</div>-->
+<!--        <input type="text" name="captcha" class="result" maxlength="2" value="">-->
+<!--    </div>-->
+
+
     <div id="qBlock"></div>
     <button type="button" id="nextBtn" class="nextBtn">next</button>
     <button type="submit" id="submitBtn" class="submit">submit</button>

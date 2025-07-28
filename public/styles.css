@@ -3,6 +3,7 @@
     margin-left: 15px;
     display: none;
 }
+
 .submit {
     font-size: large;
     background-color: olivedrab;
@@ -11,6 +12,7 @@
     margin-left: 15px;
     border: none;
 }
+
 h1 {
     color: olivedrab;
     text-decoration-line: underline;
@@ -30,6 +32,17 @@ h1 {
     color: aliceblue;
 }
 
+.userInfo {
+    margin-left: 15px;
+}
+
+.logInBtn {
+    background-color: olivedrab;
+    border-radius: 5px;
+    border: none;
+    color: aliceblue;
+}
+
 .total {
     color: olivedrab;
     font-size: large;
@@ -39,7 +52,24 @@ h1 {
 .back {
     color: olivedrab;
     margin-left: 15px;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
-@import "tailwindcss";
+#qBlock, #nextBtn, #userName {
+    display: none;
+}
+
+.userName {
+    position: fixed;
+    right: 0;
+    top: 30px;
+    padding-right: 15px;
+    color: olivedrab;
+}
+
+.captcha {
+    display: flex;
+    margin: 20px;
+}
+
+/*@import "tailwindcss";*/
