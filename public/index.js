@@ -4,14 +4,12 @@ main: question table add column with question type!
 2. mix up questions +
 3. mix up  answers hw +
 4. save to db +
-5. ask student name and save to db
 6. load questions from db +
 7. admin dashboard:
     1)CRUD(create, read, update, delete) question
     2)show results
     3)add permissions for students (login, password, limit)
 8. add right answers to json, but dont send it to the client+
-9. check test results with db
 */
 
 let data = {
@@ -165,3 +163,9 @@ document.querySelector("#logInBtn").addEventListener("click", () => {
     const name = document.getElementById("userLogin").value
     document.getElementById("userName").innerHTML = `${name}`;
 });
+
+//todo: fix submit
+const actionsBeforeSubmit = () => {
+    // document.querySelector("#qBlock").style.display = "block";
+    return true
+}

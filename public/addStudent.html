@@ -6,16 +6,22 @@
 </head>
 <body>
 <h1>Add student</h1>
-<form action="addStudent" method="post">
-  <div id="addStudentBlock">
-    <label for="studentLogin">Login</label>
-    <input name="studentLogin" id="studentLogin" type="text">
-    <label for="studentName">Name</label>
-    <input name="studentName" id="studentName" type="text">
-    <label for="studentLastname">Lastname</label>
-    <input name="studentLastname" id="studentLastname" type="text">
-  </div>
-  <button type="submit" id="addStudentBtn" class="addStudentBtn">Add</button>
+<form action="addStudent" method="post" onsubmit="return validateCaptcha()">
+    <div id="addStudentBlock">
+        <label for="studentLogin">Login</label>
+        <input name="studentLogin" id="studentLogin" type="text" required>
+        <label for="studentName">Name</label>
+        <input name="studentName" id="studentName" type="text" required>
+        <label for="studentLastname">Lastname</label>
+        <input name="studentLastname" id="studentLastname" type="text" required>
+    </div>
+    <!--  todo: captcha-->
+    <div id="captcha" class="captcha">
+        <div id="generateCaptcha" class="generateCaptcha"></div>
+        <input type="text" name="captcha" id="captchaResult" class="captchaResult" value="" required>
+    </div>
+    <button type="submit" id="addStudentBtn" class="addStudentBtn">Add</button>
 </form>
+<script src="addStudent.js"></script>
 </body>
 </html>

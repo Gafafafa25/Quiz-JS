@@ -82,7 +82,6 @@ app.get('/questions', async function (req, res) {
 
 app.post('/quiz', async (req, res) => {
     const answers = req.body;
-    let score = 0
     console.log(answers);
 
     let result;
@@ -95,24 +94,22 @@ app.post('/quiz', async (req, res) => {
         res.status(500).send('Database error');
     }
 
-    // if (answers.q9v1 === undefined && answers.q9v2 === "q9v2" && answers.q9v3 === "q9v3") {
-    //     score++
-    // }
-    // if (answers.q1 === "4") {
-    //     score++
-    // }
-    // if (answers.q3 === "console.log") {
-    //     score++
-    // }
-    // if (answers.q4 === "Math.ceil()") {
-    //     score++
-    // }
-    // if (answers.q5 === "toLowerCase()") {
-    //     score++
-    // }
-    // if (answers.q6 === "push()") {
-    //     score++
-    // }
+    //проверка ответов
+    //answers.userLogin
+    let score = 0
+    for (const prop in answers) {
+        if (isKeyQuestion(prop)) {
+            let qId = +prop.slice(1)
+            for (const q of result.rows) {
+                if (q.id === qId) {
+                    if (q.right_answer === answers[prop]) {
+                        score++
+                    }
+                }
+            }
+        }
+    }
+
     res.send('<link rel="stylesheet" href="styles.css">' + '<span class="total">Total:</span>' + score + '<br>' + '<a href="/" class="back">back</a>');
 });
 
@@ -137,14 +134,11 @@ app.post('/addQuestionRadio', async (req, res) => {
     let rightOption = ""
     if (d.rightOption === "v1") {
         rightOption = d.fieldOfOption1
-    }
-    else if (d.rightOption === "v2") {
+    } else if (d.rightOption === "v2") {
         rightOption = d.fieldOfOption2
-    }
-    else if (d.rightOption === "v3") {
+    } else if (d.rightOption === "v3") {
         rightOption = d.fieldOfOption3
-    }
-    else if (d.rightOption === "v4") {
+    } else if (d.rightOption === "v4") {
         rightOption = d.fieldOfOption4
     }
     //запрос в базу
@@ -167,14 +161,11 @@ app.post('/addQuestionCheckbox', async (req, res) => {
     for (const x of d.rightOption) {
         if (x === "v1") {
             rightOption += d.fieldOfOption1 + ";"
-        }
-        else if (x === "v2") {
+        } else if (x === "v2") {
             rightOption += d.fieldOfOption2 + ";"
-        }
-        else if (x === "v3") {
+        } else if (x === "v3") {
             rightOption += d.fieldOfOption3 + ";"
-        }
-        else if (x === "v4") {
+        } else if (x === "v4") {
             rightOption += d.fieldOfOption4 + ";"
         }
     }
@@ -197,14 +188,11 @@ app.post('/addQuestionSelect', async (req, res) => {
     let rightOption = ""
     if (d.rightOption === "v1") {
         rightOption = d.fieldOfOption1
-    }
-    else if (d.rightOption === "v2") {
+    } else if (d.rightOption === "v2") {
         rightOption = d.fieldOfOption2
-    }
-    else if (d.rightOption === "v3") {
+    } else if (d.rightOption === "v3") {
         rightOption = d.fieldOfOption3
-    }
-    else if (d.rightOption === "v4") {
+    } else if (d.rightOption === "v4") {
         rightOption = d.fieldOfOption4
     }
     //запрос в базу
@@ -231,6 +219,22 @@ app.post('/addStudent', async (req, res) => {
     res.send('ok' + '<a href="/addStudent.html" class="back">back</a>')
 })
 
+
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
 });
+
+
+//functions
+const isKeyQuestion = (key) => {
+    if (key.length === 0 || key[0] !== "q") {
+        return false;
+    }
+    ;
+    for (let i = 1; i < key.length; i++) {
+        if (key[i] < '0' || key[i] >= '9') {
+            return false;
+        }
+    }
+    return true;
+}

@@ -9,23 +9,23 @@
 <form action="addQuestionCheckbox" method="post">
   <div id="addCblock">
     <label for="questionText">Question</label>
-    <input name="questionText" id="questionText" type="text">
+    <input name="questionText" id="questionText" type="text" required>
     <br>
 
     <label for="option1checkbox"></label>
-    <input id="option1checkbox" type="checkbox" name="rightOption" value="v1">Option1 <input id="option1" type="text" name="fieldOfOption1" />
+    <input id="option1checkbox" type="checkbox" name="rightOption" value="v1">Option1 <input id="option1" type="text" name="fieldOfOption1" required/>
     <br>
 
     <label for="option2checkbox"></label>
-    <input id="option2checkbox" type="checkbox" name="rightOption" value="v2">Option2 <input id="option2" type="text" name="fieldOfOption2" />
+    <input id="option2checkbox" type="checkbox" name="rightOption" value="v2">Option2 <input id="option2" type="text" name="fieldOfOption2" required/>
     <br>
 
     <label for="option3checkbox"></label>
-    <input id="option3checkbox" type="checkbox" name="rightOption" value="v3">Option3 <input id="option3" type="text" name="fieldOfOption3" />
+    <input id="option3checkbox" type="checkbox" name="rightOption" value="v3">Option3 <input id="option3" type="text" name="fieldOfOption3" required/>
     <br>
 
     <label for="option4checkbox"></label>
-    <input id="option4checkbox" type="checkbox" name="rightOption" value="v4">Option4 <input id="option4" type="text" name="fieldOfOption4" />
+    <input id="option4checkbox" type="checkbox" name="rightOption" value="v4">Option4 <input id="option4" type="text" name="fieldOfOption4" required/>
   </div>
   <button id="createCheckboxBtn" type="submit">Create</button>
 </form>

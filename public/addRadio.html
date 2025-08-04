@@ -9,23 +9,23 @@
 <form action="addQuestionRadio" method="post">
     <div id="addRblock">
         <label for="questionText">Question</label>
-        <input name="questionText" id="questionText" type="text">
+        <input name="questionText" id="questionText" type="text" required>
         <br>
 
         <label for="option1radio"></label>
-        <input id="option1radio" type="radio" name="rightOption" value="v1">Option1 <input id="option1" type="text" name="fieldOfOption1" />
+        <input id="option1radio" type="radio" name="rightOption" value="v1">Option1 <input id="option1" type="text" name="fieldOfOption1" required/>
         <br>
 
         <label for="option2radio"></label>
-        <input id="option2radio" type="radio" name="rightOption" value="v2">Option2 <input id="option2" type="text" name="fieldOfOption2" />
+        <input id="option2radio" type="radio" name="rightOption" value="v2">Option2 <input id="option2" type="text" name="fieldOfOption2" required/>
         <br>
 
         <label for="option3radio"></label>
-        <input id="option3radio" type="radio" name="rightOption" value="v3">Option3 <input id="option3" type="text" name="fieldOfOption3" />
+        <input id="option3radio" type="radio" name="rightOption" value="v3">Option3 <input id="option3" type="text" name="fieldOfOption3" required/>
         <br>
 
         <label for="option4radio"></label>
-        <input id="option4radio" type="radio" name="rightOption" value="v4">Option4 <input id="option4" type="text" name="fieldOfOption4" />
+        <input id="option4radio" type="radio" name="rightOption" value="v4">Option4 <input id="option4" type="text" name="fieldOfOption4" required/>
     </div>
     <button id="createRadioBtn" type="submit">Create</button>
 </form>
