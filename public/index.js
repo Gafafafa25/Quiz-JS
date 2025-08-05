@@ -20,13 +20,11 @@ let data = {
 fetch("/questions").then((response) => {
     return response.json();
 }).then((questions) => {
-    // console.log(data)
     data.questions = questions;
     createTest();
 
     let questionNumber = 0;
     const divQuestions = document.querySelectorAll(".q");
-    console.log(divQuestions);
 
     divQuestions[questionNumber].style.display = "block";
 
@@ -59,7 +57,6 @@ function getMixedArray(n) {
 
 
 function createTest() {
-    console.log(data)
     let newQuestion;
     // let k = 6
     my_form = document.getElementById("qBlock");

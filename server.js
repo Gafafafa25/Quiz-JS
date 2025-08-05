@@ -1,3 +1,13 @@
+require('dotenv').config();
+const { Pool } = require('pg');
+
+const pool = new Pool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -19,62 +29,17 @@ const pool = new Pool({
 });
 
 
-//json from db
-const _data = {
-    "questions": [
-        {
-            "id": "1",
-            "text": "2+2=?",
-            "type": "text", //radio, text, checkbox, select
-            "options": []
-        },
-        {
-            "id": "3",
-            "text": "What command print to the console?",
-            "type": "radio",
-            "options": ["console.log", "console.print", "alert"]
-        },
-        {
-            "id": "4",
-            "text": "What command will return the value rounded up to the nearest integer?",
-            "type": "text",
-            "options": []
-        },
-        {
-            "id": "5",
-            "text": "Select method for the string only",
-            "type": "radio",
-            "options": ["slice()", "replace()", "toLowerCase()"]
-        },
-        {
-            "id": "6",
-            "text": "Select method to add a new element in an array",
-            "type": "select",
-            "options": ["push()", "pop()", "shift()"]
-        },
-        {
-            "id": "9",
-            "text": "Select Boolean data type",
-            "type": "checkbox",
-            "options": ["btype", "YES / NO", "TRUE / FALSE"]
-        }
-    ]
-}
-
 app.get('/questions', async function (req, res) {
     try {
         const result = await pool.query('SELECT * FROM Questions');
-        console.log(result)
         const data2 = result.rows;
         for (let i = 0; i < data2.length; i++) {
             data2[i].options = data2[i].options.split(";")
             data2[i].right_answer = ""
         }
-        console.log(data2);
         res.json(data2);
         // res.json(result.rows[0]);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Database error');
     }
     // res.json(data.questions);
@@ -82,15 +47,11 @@ app.get('/questions', async function (req, res) {
 
 app.post('/quiz', async (req, res) => {
     const answers = req.body;
-    console.log(answers);
 
     let result;
     try {
         result = await pool.query('SELECT * FROM questions');
-
-        console.log(result)
     } catch (err) {
-        console.error(err);
         res.status(500).send('Database error');
     }
 
@@ -115,13 +76,11 @@ app.post('/quiz', async (req, res) => {
 
 app.post('/addQuestion', async (req, res) => {
     const answers = req.body;
-    console.log(answers);
     //запрос в базу
     try {
         const result = await pool.query("INSERT INTO Questions VALUES ($1, 'text', '-', $2, DEFAULT)", [answers.questionText, answers.answerText]);
         // res.json(result.rows[0]);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Database error');
     }
     res.send('ok' + '<a href="/add.html" class="back">back</a>')
@@ -129,7 +88,6 @@ app.post('/addQuestion', async (req, res) => {
 
 app.post('/addQuestionRadio', async (req, res) => {
     const d = req.body;
-    console.log(d);
     const options = `${d.fieldOfOption1};${d.fieldOfOption2};${d.fieldOfOption3};${d.fieldOfOption4}`;
     let rightOption = ""
     if (d.rightOption === "v1") {
@@ -147,7 +105,6 @@ app.post('/addQuestionRadio', async (req, res) => {
             [d.questionText, options, rightOption]);
         // res.json(result.rows[0]);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Database error');
     }
     res.send('ok' + '<a href="/addRadio.html" class="back">back</a>')
@@ -155,7 +112,6 @@ app.post('/addQuestionRadio', async (req, res) => {
 
 app.post('/addQuestionCheckbox', async (req, res) => {
     const d = req.body;
-    console.log(d);
     const options = `${d.fieldOfOption1};${d.fieldOfOption2};${d.fieldOfOption3};${d.fieldOfOption4}`;
     let rightOption = ""
     for (const x of d.rightOption) {
@@ -175,15 +131,43 @@ app.post('/addQuestionCheckbox', async (req, res) => {
         const result = await pool.query("INSERT INTO Questions VALUES ($1, 'checkbox', $2, $3, DEFAULT)",
             [d.questionText, options, rightOption]);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Database error');
     }
     res.send('ok' + '<a href="/addCheckbox.html" class="back">back</a>')
 })
 
+app.post('/addCheckbox2', async (req, res) => {
+    const d = req.body;
+    const options = `${d.answerText1};${d.answerText2};${d.answerText3};${d.answerText4}`;
+    let rightOption = ""
+    console.log( d.answerText1)
+    //todo: fix the error
+    for (const x of d.rightAnswer) {
+        if (x === "v1") {
+            rightOption += d.answerText1 + ";"
+        } else if (x === "v2") {
+            rightOption += d.answerText2 + ";"
+        } else if (x === "v3") {
+            rightOption += d.answerText3 + ";"
+        } else if (x === "v4") {
+            rightOption += d.answerText4 + ";"
+        }
+    }
+    console.log(rightOption);
+    rightOption = rightOption.slice(0, rightOption.length - 1);
+    //запрос в базу
+    try {
+        const result = await pool.query("INSERT INTO Questions VALUES ($1, 'checkbox', $2, $3, DEFAULT)",
+            [d.questionText, options, rightOption]);
+    } catch (err) {
+        res.status(500).send('Database error');
+    }
+    res.send('ok' + '<a href="/addCheckbox2.html" class="back">back</a>')
+})
+
+
 app.post('/addQuestionSelect', async (req, res) => {
     const d = req.body;
-    console.log(d);
     const options = `${d.fieldOfOption1};${d.fieldOfOption2};${d.fieldOfOption3};${d.fieldOfOption4}`;
     let rightOption = ""
     if (d.rightOption === "v1") {
@@ -200,7 +184,6 @@ app.post('/addQuestionSelect', async (req, res) => {
         const result = await pool.query("INSERT INTO Questions VALUES ($1, 'select', $2, $3, DEFAULT)",
             [d.questionText, options, rightOption]);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Database error');
     }
     res.send('ok' + '<a href="/addSelect.html" class="back">back</a>')
@@ -208,12 +191,10 @@ app.post('/addQuestionSelect', async (req, res) => {
 
 app.post('/addStudent', async (req, res) => {
     const d = req.body;
-    console.log(d)
     //запрос в базу
     try {
         const result = await pool.query("INSERT INTO Students VALUES (DEFAULT, $1, $2, $3)", [d.studentLogin, d.studentName, d.studentLastname]);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Database error');
     }
     res.send('ok' + '<a href="/addStudent.html" class="back">back</a>')
