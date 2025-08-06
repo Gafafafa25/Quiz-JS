@@ -19,15 +19,6 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const {Pool} = require('pg');
-
-const pool = new Pool({
-    host: "localhost",
-    user: "myuser",
-    password: "mypassword",
-    database: "quiz"
-});
-
 
 app.get('/questions', async function (req, res) {
     try {
@@ -139,26 +130,25 @@ app.post('/addQuestionCheckbox', async (req, res) => {
 app.post('/addCheckbox2', async (req, res) => {
     const d = req.body;
     const options = `${d.answerText1};${d.answerText2};${d.answerText3};${d.answerText4}`;
-    let rightOption = ""
-    console.log( d.answerText1)
-    //todo: fix the error
+    let rightOptions = []
+    console.log( d)
     for (const x of d.rightAnswer) {
-        if (x === "v1") {
-            rightOption += d.answerText1 + ";"
-        } else if (x === "v2") {
-            rightOption += d.answerText2 + ";"
-        } else if (x === "v3") {
-            rightOption += d.answerText3 + ";"
-        } else if (x === "v4") {
-            rightOption += d.answerText4 + ";"
-        }
+        // if (x === "v1") {
+        //     rightOption += d.answerText1 + ";"
+        // } else if (x === "v2") {
+        //     rightOption += d.answerText2 + ";"
+        // } else if (x === "v3") {
+        //     rightOption += d.answerText3 + ";"
+        // } else if (x === "v4") {
+        //     rightOption += d.answerText4 + ";"
+        // }
+        rightOptions.push(d["answerText" + x] ); //todo: hardcode
     }
-    console.log(rightOption);
-    rightOption = rightOption.slice(0, rightOption.length - 1);
+    console.log(rightOptions);
     //запрос в базу
     try {
         const result = await pool.query("INSERT INTO Questions VALUES ($1, 'checkbox', $2, $3, DEFAULT)",
-            [d.questionText, options, rightOption]);
+            [d.questionText, options, rightOptions.join(";")]);
     } catch (err) {
         res.status(500).send('Database error');
     }

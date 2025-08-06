@@ -14,7 +14,7 @@ document.querySelector("#plusAnswerBtn").addEventListener("click", () => {
     newInput.type = "checkbox";
     newInput.id = idAnswer;
     newInput.name = "rightAnswer";
-    newInput.value = "v" + optionNumber;
+    newInput.value = optionNumber.toString();
     optionContainer.appendChild(newInput);
 
     let newTextInput = document.createElement("input");
