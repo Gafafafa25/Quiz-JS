@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Pool } = require('pg');
+const {Pool} = require('pg');
 
 const pool = new Pool({
     host: process.env.DB_HOST,
@@ -38,10 +38,12 @@ app.get('/questions', async function (req, res) {
 
 app.post('/quiz', async (req, res) => {
     const answers = req.body;
+    console.log(answers)
 
     let result;
     try {
         result = await pool.query('SELECT * FROM questions');
+        console.log(result);
     } catch (err) {
         res.status(500).send('Database error');
     }
@@ -49,19 +51,61 @@ app.post('/quiz', async (req, res) => {
     //проверка ответов
     //answers.userLogin
     let score = 0
+    const answers2 = {}
     for (const prop in answers) {
         if (isKeyQuestion(prop)) {
-            let qId = +prop.slice(1)
-            for (const q of result.rows) {
-                if (q.id === qId) {
-                    if (q.right_answer === answers[prop]) {
-                        score++
-                    }
+            // console.log("p", prop)
+            // let qId = prop.slice(1)
+            let f = prop.includes("v")
+            let qId = f ? prop.slice(1, prop.indexOf("v")) : prop.slice(1)
+            let qValue = answers[prop]
+            if (!(qId in answers2)) {
+                answers2[qId] = qValue
+                if (f) {
+                    answers2[qId] += ";"
                 }
+            } else {
+                answers2[qId] += qValue + ";";
             }
         }
     }
+    for (let prop in answers2) {
+        if (answers2[prop].endsWith(";")) {
+            answers2[prop] = answers2[prop].slice(0, -1);
+        }
+    }
 
+    for (const qId in answers2) {
+        for (const questionData of result.rows) {
+            if (+qId === questionData.id) {
+                if (questionData.type !== 'checkbox') {
+                    score += answers2[qId] === questionData.right_answer ? 1 : 0
+                } else { //checkbox
+                    const userAnswer = answers2[qId].split(";")
+                    const correctAnswer = questionData.right_answer.split(";")
+                    console.log(userAnswer, correctAnswer)
+                    if (userAnswer.length !== correctAnswer.length) {
+                        break
+                    } else {
+                        userAnswer.sort()
+                        correctAnswer.sort()
+                        let isTheSame = true
+                        for (let i = 0; i < userAnswer.length; i++) {
+                            if (userAnswer[i] !== correctAnswer[i]) {
+                                isTheSame = false
+                                break
+                            }
+                        }
+                        if (isTheSame) {
+                            score++
+                        }
+                    }
+                }
+                break
+            }
+        }
+    }
+    console.log(answers2)
     res.send('<link rel="stylesheet" href="styles.css">' + '<span class="total">Total:</span>' + score + '<br>' + '<a href="/" class="back">back</a>');
 });
 
@@ -131,18 +175,9 @@ app.post('/addCheckbox2', async (req, res) => {
     const d = req.body;
     const options = `${d.answerText1};${d.answerText2};${d.answerText3};${d.answerText4}`;
     let rightOptions = []
-    console.log( d)
+    console.log(d)
     for (const x of d.rightAnswer) {
-        // if (x === "v1") {
-        //     rightOption += d.answerText1 + ";"
-        // } else if (x === "v2") {
-        //     rightOption += d.answerText2 + ";"
-        // } else if (x === "v3") {
-        //     rightOption += d.answerText3 + ";"
-        // } else if (x === "v4") {
-        //     rightOption += d.answerText4 + ";"
-        // }
-        rightOptions.push(d["answerText" + x] ); //todo: hardcode
+        rightOptions.push(d["answerText" + x]); //todo: hardcode
     }
     console.log(rightOptions);
     //запрос в базу
@@ -201,9 +236,8 @@ const isKeyQuestion = (key) => {
     if (key.length === 0 || key[0] !== "q") {
         return false;
     }
-    ;
     for (let i = 1; i < key.length; i++) {
-        if (key[i] < '0' || key[i] >= '9') {
+        if (key[i] < '0' || (key[i] > '9' && key[i] !== 'v')) {
             return false;
         }
     }

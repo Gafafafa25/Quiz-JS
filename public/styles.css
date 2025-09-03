@@ -1,71 +1,73 @@
+@import "tailwindcss";
+
 .q {
-    margin-bottom: 30px;
-    margin-left: 15px;
+    /*margin-bottom: 30px;*/
+    /*margin-left: 15px;*/
     display: none;
 }
 
-.submit {
-    font-size: large;
-    background-color: olivedrab;
-    border-radius: 10px;
-    color: aliceblue;
-    margin-left: 15px;
-    border: none;
-}
+/*.submit {*/
+/*    font-size: large;*/
+/*    background-color: olivedrab;*/
+/*    border-radius: 10px;*/
+/*    color: aliceblue;*/
+/*    margin-left: 15px;*/
+/*    border: none;*/
+/*}*/
 
-h1 {
-    color: olivedrab;
-    text-decoration-line: underline;
-    margin-left: 15px;
-}
+/*h1 {*/
+/*    !*color: olivedrab;*!*/
+/*    text-decoration-line: underline;*/
+/*    margin-left: 15px;*/
+/*}*/
 
 #submitBtn {
     display: none;
 
 }
 
-.nextBtn {
-    margin-left: 15px;
-    background-color: olivedrab;
-    border-radius: 5px;
-    border: none;
-    color: aliceblue;
-}
+/*.nextBtn {*/
+/*    margin-left: 15px;*/
+/*    background-color: olivedrab;*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    color: aliceblue;*/
+/*}*/
 
-.userInfo {
-    margin-left: 15px;
-}
+/*.userInfo {*/
+/*    margin-left: 15px;*/
+/*}*/
 
-.logInBtn {
-    background-color: olivedrab;
-    border-radius: 5px;
-    border: none;
-    color: aliceblue;
-}
+/*.logInBtn {*/
+/*    background-color: olivedrab;*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    color: aliceblue;*/
+/*}*/
 
-.total {
-    color: olivedrab;
-    font-size: large;
-    margin-left: 15px;
-}
+/*.total {*/
+/*    color: olivedrab;*/
+/*    font-size: large;*/
+/*    margin-left: 15px;*/
+/*}*/
 
-.back {
-    color: olivedrab;
-    margin-left: 15px;
-    margin-top: 20px;
-}
+/*.back {*/
+/*    color: olivedrab;*/
+/*    margin-left: 15px;*/
+/*    margin-top: 20px;*/
+/*}*/
 
 #qBlock, #nextBtn, #userName {
     display: none;
 }
 
-.userName {
-    position: fixed;
-    right: 0;
-    top: 30px;
-    padding-right: 15px;
-    color: olivedrab;
-}
+/*.userName {*/
+/*    position: fixed;*/
+/*    right: 0;*/
+/*    top: 30px;*/
+/*    padding-right: 15px;*/
+/*    color: olivedrab;*/
+/*}*/
 
 .captcha {
     display: flex;

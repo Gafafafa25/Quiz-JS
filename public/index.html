@@ -6,19 +6,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Quiz JS</h1>
-<div id="userName" class="userName"></div>
+<h1 class="text-3xl m-4 text-green-700">Quiz JS</h1>
+<div id="userName" class="userName border border-green-600 px-2 py-1 rounded text-green-700 italic fixed right-30 top-10px pr--50px"></div>
 <form id="form" action="quiz" method="post" onsubmit="return actionsBeforeSubmit()">
-    <div id="userInfo" class="userInfo">
+    <div id="userInfo" class="userInfo ml-4">
         <label for="userLogin">Input your login:</label>
-        <input name="userLogin" id="userLogin" type="text" required>
-        <button type="button" id="logInBtn" class="logInBtn">log in</button>
+        <input name="userLogin" id="userLogin" type="text" class="appearance-none mr-1 border border-gray-400 bg-white" required>
+        <button type="button" id="logInBtn" class="logInBtn bg-green-700 hover:bg-green-900 text-white py-0.5 px-1 rounded transition">log in</button>
     </div>
 
 
-    <div id="qBlock"></div>
-    <button type="button" id="nextBtn" class="nextBtn">next</button>
-    <button type="submit" id="submitBtn" class="submit">submit</button>
+    <div id="qBlock" class="ml-4 p-1"></div>
+    <button type="button" id="nextBtn" class="nextBtn m-5 bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded transition">next</button>
+    <button type="submit" id="submitBtn" class="submit m-5 bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded transition">submit</button>
 </form>
 <script src="index.js"></script>
 </body>

@@ -16,30 +16,32 @@ let data = {
     "questions": []
 }
 
+document.addEventListener('DOMContentLoaded', function () {
 //запрос вопросов с сервера
-fetch("/questions").then((response) => {
-    return response.json();
-}).then((questions) => {
-    data.questions = questions;
-    createTest();
+    console.log("DOM")
+    fetch("/questions").then((response) => {
+        return response.json();
+    }).then((questions) => {
+        data.questions = questions;
+        createTest();
 
-    let questionNumber = 0;
-    const divQuestions = document.querySelectorAll(".q");
+        let questionNumber = 0;
+        const divQuestions = document.querySelectorAll(".q");
 
-    divQuestions[questionNumber].style.display = "block";
-
-    const nextBtn = document.querySelector("#nextBtn")
-
-    nextBtn.addEventListener("click", () => {
-        divQuestions[questionNumber].style.display = "none";
-        questionNumber++;
-        if (questionNumber === data.questions.length - 1) {
-            document.querySelector("#submitBtn").style.display = "block";
-            nextBtn.style.display = "none";
-        }
         divQuestions[questionNumber].style.display = "block";
-    });
 
+        const nextBtn = document.querySelector("#nextBtn")
+
+        nextBtn.addEventListener("click", () => {
+            divQuestions[questionNumber].style.display = "none";
+            questionNumber++;
+            if (questionNumber === data.questions.length - 1) {
+                document.querySelector("#submitBtn").style.display = "block";
+                nextBtn.style.display = "none";
+            }
+            divQuestions[questionNumber].style.display = "block";
+        });
+    })
 })
 
 function getMixedArray(n) {
@@ -81,10 +83,12 @@ function createTest() {
             newLabel = document.createElement("label");
             newLabel.htmlFor = "q" + question.id;
             newLabel.innerText = "Answer";
+            newLabel.className = "appearance-none mr-2 w-3 h-3";
             newInput = document.createElement("input");
             newInput.id = "q" + question.id
             newInput.name = "q" + question.id;
             newInput.type = "text";
+            newInput.className = "appearance-none mr-1 px-0.5 border border-gray-400 bg-white";
             newQuestion.appendChild(newLabel);
             newQuestion.appendChild(newInput);
         } else if (question.type === "radio") {
@@ -92,6 +96,7 @@ function createTest() {
             for (let i = 0; i < question.options.length; i++) {
                 newInput = document.createElement("input");
                 newInput.type = "radio";
+                newInput.className = "appearance-none mr-1 w-3 h-3 border border-gray-400 rounded-full bg-white checked:bg-green-500 checked:border-green-500";
                 const idText = "q" + question.id + "v" + (i + 1);
                 newInput.id = idText;
                 newInput.value = question.options[randomOrderRadio[i]];
@@ -102,6 +107,8 @@ function createTest() {
                 newLabel = document.createElement("label");
                 newLabel.innerText = question.options[randomOrderRadio[i]];
                 newLabel.htmlFor = idText;
+                newLabel.className = "appearance-none mr-4 w-3 h-3";
+
                 newQuestion.appendChild(newLabel);
 
             }
@@ -118,6 +125,7 @@ function createTest() {
             newSelect.appendChild(newOption);
             for (let i = 0; i < question.options.length; i++) {
                 newOption = document.createElement("option");
+                newOption.className = "mr-4 w-3 h-3";
                 newOption.innerText = question.options[randomOrderSelect[i]];
                 newSelect.appendChild(newOption);
             }
@@ -128,10 +136,12 @@ function createTest() {
                 const idText = "q" + question.id + "v" + (i + 1);
                 newLabel.htmlFor = idText;
                 newLabel.innerText = question.options[randomOrderCheckbox[i]];
+                newLabel.className = "appearance-none mr-1 w-3 h-3";
                 newQuestion.appendChild(newLabel);
 
                 newInput = document.createElement("input");
                 newInput.type = "checkbox";
+                newInput.className = "appearance-none mr-4 w-3 h-3 border border-gray-400 rounded-sm bg-white checked:bg-green-500 checked:border-green-500";
                 newInput.id = idText;
                 newInput.name = idText;
                 newInput.value = question.options[randomOrderCheckbox[i]];
@@ -158,7 +168,7 @@ document.querySelector("#logInBtn").addEventListener("click", () => {
     document.querySelector("#userName").style.display = "block";
 
     const name = document.getElementById("userLogin").value
-    document.getElementById("userName").innerHTML = `${name}`;
+    document.getElementById("userName").innerHTML = `user: ${name}`;
 });
 
 //todo: fix submit
