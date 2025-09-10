@@ -16,6 +16,10 @@ let data = {
     "questions": []
 }
 
+
+let questionNumber = 0;
+let divQuestions, nextBtn;
+
 document.addEventListener('DOMContentLoaded', function () {
 //запрос вопросов с сервера
     console.log("DOM")
@@ -24,25 +28,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }).then((questions) => {
         data.questions = questions;
         createTest();
-
-        let questionNumber = 0;
-        const divQuestions = document.querySelectorAll(".q");
+        //
+        questionNumber = 0;
+        divQuestions = document.querySelectorAll(".q");
 
         divQuestions[questionNumber].style.display = "block";
 
-        const nextBtn = document.querySelector("#nextBtn")
+        nextBtn = document.querySelector("#nextBtn")
 
-        nextBtn.addEventListener("click", () => {
-            divQuestions[questionNumber].style.display = "none";
-            questionNumber++;
-            if (questionNumber === data.questions.length - 1) {
-                document.querySelector("#submitBtn").style.display = "block";
-                nextBtn.style.display = "none";
-            }
-            divQuestions[questionNumber].style.display = "block";
-        });
+        nextBtn.addEventListener("click", nextQuestionHandler)
     })
 })
+
+const nextQuestionHandler = () => {
+    divQuestions[questionNumber].style.display = "none";
+    questionNumber++;
+    if (questionNumber === data.questions.length - 1) {
+        document.querySelector("#submitBtn").style.display = "block";
+        nextBtn.style.display = "none";
+    }
+    divQuestions[questionNumber].style.display = "block";
+
+    startTimer()
+}
 
 function getMixedArray(n) {
     const res = []
@@ -166,10 +174,47 @@ document.querySelector("#logInBtn").addEventListener("click", () => {
     document.querySelector("#qBlock").style.display = "block";
     document.querySelector("#nextBtn").style.display = "block";
     document.querySelector("#userName").style.display = "block";
+    document.querySelector("#timer").style.display = "block";
+    document.querySelector("#mainTimer").style.display = "block";
+
+    startTimer()
+    startMainTimer()
 
     const name = document.getElementById("userLogin").value
     document.getElementById("userName").innerHTML = `user: ${name}`;
 });
+
+
+let intervalId;
+const startTimer = () => {
+    clearInterval(intervalId);
+    let count = 10;
+    intervalId = setInterval(() => {
+        count--;
+        document.getElementById("timer").textContent ="Time left: " + count + " sec";
+        console.log("Счетчик: " + count);
+        if (count === 0) {
+            clearInterval(intervalId);
+            if (questionNumber === data.questions.length - 1) {
+                document.querySelector("#submitBtn").click()
+            } else {
+                nextQuestionHandler()
+            }
+        }
+    }, 1000); // Выполнять каждую секунду
+}
+
+let totalIntervalId;
+const startMainTimer = () => {
+    clearInterval(totalIntervalId);
+    let count = 0;
+    totalIntervalId = setInterval(() => {
+        count++;
+        document.getElementById("mainTimer").textContent = "Total time: " + count + " sec";
+        console.log("Счетчик: " + count);
+    }, 1000);
+}
+
 
 //todo: fix submit
 const actionsBeforeSubmit = () => {
