@@ -20,25 +20,23 @@ let data = {
 let questionNumber = 0;
 let divQuestions, nextBtn;
 
-document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', async function () {
 //запрос вопросов с сервера
     console.log("DOM")
-    fetch("/questions").then((response) => {
-        return response.json();
-    }).then((questions) => {
-        data.questions = questions;
-        createTest();
-        //
-        questionNumber = 0;
-        divQuestions = document.querySelectorAll(".q");
+    let response = await fetch("/questions")
+    data.questions = await response.json();
+    createTest();
+    questionNumber = 0;
+    divQuestions = document.querySelectorAll(".q");
 
-        divQuestions[questionNumber].style.display = "block";
+    divQuestions[questionNumber].style.display = "block";
 
-        nextBtn = document.querySelector("#nextBtn")
+    nextBtn = document.querySelector("#nextBtn")
 
-        nextBtn.addEventListener("click", nextQuestionHandler)
-    })
+    nextBtn.addEventListener("click", nextQuestionHandler)
 })
+
 
 const nextQuestionHandler = () => {
     divQuestions[questionNumber].style.display = "none";
@@ -169,7 +167,21 @@ function createTest() {
 }
 
 
-document.querySelector("#logInBtn").addEventListener("click", () => {
+document.querySelector("#logInBtn").addEventListener("click", async () => {
+    //проверка логина в бд
+    const studentLogin = document.getElementById("userLogin").value
+    let response = await fetch("/checkStudent", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            studentLogin: studentLogin
+        })
+    })
+    let res = await response.json();
+    console.log(res)
+    return
     document.querySelector("#userInfo").style.display = "none";
     document.querySelector("#qBlock").style.display = "block";
     document.querySelector("#nextBtn").style.display = "block";
@@ -180,8 +192,8 @@ document.querySelector("#logInBtn").addEventListener("click", () => {
     startTimer()
     startMainTimer()
 
-    const name = document.getElementById("userLogin").value
-    document.getElementById("userName").innerHTML = `user: ${name}`;
+    // const studentLogin = document.getElementById("userLogin").value
+    document.getElementById("userName").innerHTML = `user: ${studentLogin}`;
 });
 
 
@@ -191,7 +203,7 @@ const startTimer = () => {
     let count = 10;
     intervalId = setInterval(() => {
         count--;
-        document.getElementById("timer").textContent ="Time left: " + count + " sec";
+        document.getElementById("timer").textContent = "Time left: " + count + " sec";
         console.log("Счетчик: " + count);
         if (count === 0) {
             clearInterval(intervalId);
@@ -207,12 +219,16 @@ const startTimer = () => {
 let totalIntervalId;
 const startMainTimer = () => {
     clearInterval(totalIntervalId);
-    let count = 0;
+    let seconds = 0;
+    let countMin = 0
     totalIntervalId = setInterval(() => {
-        count++;
-        document.getElementById("mainTimer").textContent = "Total time: " + count + " sec";
-        console.log("Счетчик: " + count);
-    }, 1000);
+        seconds++;
+        let screenMinutes = Math.floor(seconds / 60);
+        let screenSeconds = seconds % 60
+        document.getElementById("mainTimer").textContent = `Total time: ${screenMinutes = screenMinutes > 9 ? screenMinutes : "0" + screenMinutes}:${screenSeconds = screenSeconds > 9 ? screenSeconds : "0" + screenSeconds}`;
+        console.log("Счетчик: " + seconds);
+    }, 100);
+
 }
 
 
