@@ -179,9 +179,17 @@ document.querySelector("#logInBtn").addEventListener("click", async () => {
             studentLogin: studentLogin
         })
     })
+    console.log(response)
     let res = await response.json();
+    //todo: if login +
+    // if (res.length === 0) {
+    //     alert("error")
+    // }
+    // todo: else div with message error
     console.log(res)
+
     return
+
     document.querySelector("#userInfo").style.display = "none";
     document.querySelector("#qBlock").style.display = "block";
     document.querySelector("#nextBtn").style.display = "block";
@@ -204,7 +212,6 @@ const startTimer = () => {
     intervalId = setInterval(() => {
         count--;
         document.getElementById("timer").textContent = "Time left: " + count + " sec";
-        console.log("Счетчик: " + count);
         if (count === 0) {
             clearInterval(intervalId);
             if (questionNumber === data.questions.length - 1) {
@@ -226,7 +233,6 @@ const startMainTimer = () => {
         let screenMinutes = Math.floor(seconds / 60);
         let screenSeconds = seconds % 60
         document.getElementById("mainTimer").textContent = `Total time: ${screenMinutes = screenMinutes > 9 ? screenMinutes : "0" + screenMinutes}:${screenSeconds = screenSeconds > 9 ? screenSeconds : "0" + screenSeconds}`;
-        console.log("Счетчик: " + seconds);
     }, 100);
 
 }

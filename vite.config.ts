@@ -6,7 +6,7 @@
 //     ],
 // })
 
-import { defineConfig } from 'vite'
+import {defineConfig} from 'vite'
 
 export default defineConfig(async () => {
     const tailwind = (await import('@tailwindcss/vite')).default

@@ -36,13 +36,14 @@ app.get('/questions', async function (req, res) {
     // res.json(data.questions);
 })
 
-app.get('/checkStudent', async function (req, res) {
-   console.log(req.body, req.body.studentLogin)
+app.post('/checkStudent', async function (req, res) {
+   console.log(new Date())
+    console.log(req.body, req.body.studentLogin)
     try {
-        const result = await pool.query("SELECT login FROM students WHERE login = $1", ["abc"]);
+        const result = await pool.query("SELECT id FROM students WHERE login = $1", [req.body.studentLogin]);
         const data = result.rows;
-        console.log(data)
-        res.json(data);
+        console.log(data, " +")
+        res.json({data: data});
     } catch (err) {
         res.status(500).send('Database error');
     }
@@ -119,12 +120,12 @@ app.post('/quiz', async (req, res) => {
     }
     console.log(answers2)
     //todo: send to database score and data
-    // try {
-    //     const result = await pool.query("INSERT INTO attempts VALUES (DEFAULT,  (SELECT student_id FROM students WHERE student_id.students = student_id.attempts), (SELECT login FROM students WHERE email = student_id.students = student_id.attempts), $1)", score);
-    //     // res.json(result.rows[0]);
-    // } catch (err) {
-    //     res.status(500).send('Database error');
-    // }
+    try {
+        const result = await pool.query("INSERT INTO attempts VALUES (DEFAULT,  (SELECT student_id FROM students WHERE student_id.students = student_id.attempts), (SELECT login FROM students WHERE email = student_id.students = student_id.attempts), $1)", score);
+        // res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).send('Database error');
+    }
     res.send('<link rel="stylesheet" href="styles.css">' + '<span class="total">Total:</span>' + score + '<br>' + '<a href="/" class="back">back</a>');
 });
 
