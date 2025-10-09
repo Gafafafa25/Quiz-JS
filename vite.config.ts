@@ -23,7 +23,8 @@ export default defineConfig(async () => {
                 '/addQuestionCheckbox': 'http://localhost:3000',
                 '/addQuestionSelect': 'http://localhost:3000',
                 '/addStudent': 'http://localhost:3000',
-                '/checkStudent': 'http://localhost:3000'
+                '/checkStudent': 'http://localhost:3000',
+                '/removeQuestion': 'http://localhost:3000'
             }
         },
         build: {

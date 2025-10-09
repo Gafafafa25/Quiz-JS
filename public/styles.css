@@ -6,6 +6,19 @@
     display: none;
 }
 
+.qAdmin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.opacityTest {
+    opacity: 0.1;
+}
+
+.opacityTest:hover {
+    opacity: 1;
+}
 /*.submit {*/
 /*    font-size: large;*/
 /*    background-color: olivedrab;*/

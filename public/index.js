@@ -37,6 +37,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     nextBtn.addEventListener("click", nextQuestionHandler)
 })
 
+// function showCustomError(message) {
+//     const overlay = document.getElementById("errorPopupOverlay");
+//     const errorMessageElement = document.getElementById("errorMessage");
+//
+//     errorMessageElement.textContent = message; // Устанавливаем текст ошибки
+//     overlay.style.display = "block"; // Делаем окно видимым
+// }
+//
+// function hideCustomError() {
+//     const overlay = document.getElementById("error-popup-overlay");
+//     overlay.style.display = "none"; // Скрываем окно
+// }
+
 
 const nextQuestionHandler = () => {
     divQuestions[questionNumber].style.display = "none";
@@ -181,14 +194,15 @@ document.querySelector("#logInBtn").addEventListener("click", async () => {
     })
     console.log(response)
     let res = await response.json();
-    //todo: if login +
-    // if (res.length === 0) {
-    //     alert("error")
-    // }
-    // todo: else div with message error
+    if (res.data.length === 0) {
+        alert("error")
+        return
+    }
+    else {
+        document.querySelector("#studentId").value = res.data[0].student_id;
+    }
     console.log(res)
 
-    return
 
     document.querySelector("#userInfo").style.display = "none";
     document.querySelector("#qBlock").style.display = "block";
@@ -236,6 +250,7 @@ const startMainTimer = () => {
     }, 100);
 
 }
+
 
 
 //todo: fix submit

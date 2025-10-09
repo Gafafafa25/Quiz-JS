@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/questions', async function (req, res) {
     try {
-        const result = await pool.query('SELECT * FROM Questions');
+        const result = await pool.query('SELECT * FROM Questions WHERE is_removed = false');
         const data2 = result.rows;
         for (let i = 0; i < data2.length; i++) {
             data2[i].options = data2[i].options.split(";")
@@ -37,10 +37,10 @@ app.get('/questions', async function (req, res) {
 })
 
 app.post('/checkStudent', async function (req, res) {
-   console.log(new Date())
+    console.log(new Date())
     console.log(req.body, req.body.studentLogin)
     try {
-        const result = await pool.query("SELECT id FROM students WHERE login = $1", [req.body.studentLogin]);
+        const result = await pool.query("SELECT student_id FROM students WHERE login = $1", [req.body.studentLogin]);
         const data = result.rows;
         console.log(data, " +")
         res.json({data: data});
@@ -118,10 +118,11 @@ app.post('/quiz', async (req, res) => {
             }
         }
     }
+    console.log(score)
     console.log(answers2)
-    //todo: send to database score and data
+
     try {
-        const result = await pool.query("INSERT INTO attempts VALUES (DEFAULT,  (SELECT student_id FROM students WHERE student_id.students = student_id.attempts), (SELECT login FROM students WHERE email = student_id.students = student_id.attempts), $1)", score);
+        const result = await pool.query("INSERT INTO attempts VALUES (DEFAULT, $1, $2)", [answers.studentId, score]);
         // res.json(result.rows[0]);
     } catch (err) {
         res.status(500).send('Database error');
@@ -134,11 +135,23 @@ app.post('/addQuestion', async (req, res) => {
     //запрос в базу
     try {
         const result = await pool.query("INSERT INTO Questions VALUES ($1, 'text', '-', $2, DEFAULT)", [answers.questionText, answers.answerText]);
-        // res.json(result.rows[0]);
     } catch (err) {
         res.status(500).send('Database error');
     }
     res.send('ok' + '<a href="/add.html" class="back">back</a>')
+})
+
+app.post('/removeQuestion', async (req, res) => {
+    const answers = req.body;
+    console.log(req.body)
+    //запрос в базу
+    try {
+        const result = await pool.query("UPDATE Questions SET is_removed = true WHERE id = $1", [req.body.questionId]);
+        console.log(result)
+    } catch (err) {
+        res.status(500).send('Database error');
+    }
+    res.json({status: 'success'});
 })
 
 app.post('/addQuestionRadio', async (req, res) => {
